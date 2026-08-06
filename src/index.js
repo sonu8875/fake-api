@@ -16,11 +16,11 @@ app.get("/", (req, res) => {
   res.send("<h1>server running</h1>");
 });
 
+const PORT = process.env.PORT || 9000;
 dbConnection()
   .then((reponse) => {
-    console.log("mongo db connected");
+    console.log("db connected");
 
-    const PORT = process.env.PORT || 9000;
     app.listen(PORT, function () {
       console.log(`server runnimg on http://localhost:${PORT}`);
     });
