@@ -4,7 +4,9 @@ import ProductModel from "../model/product.model.js";
 const createProduct = async (req, res) => {
   try {
     const { title, price, description, category } = req.body;
-    const image = req.file ? req.file.filename : "";
+    const image = req.file
+      ? `${req.protocol}://${req.get("host")}/upload/${req.file.filename}`
+      : "";
 
     const rating = {
       rate: Number(req.body["rating.rate"]),
@@ -67,15 +69,10 @@ const readProduct = async (req, res) => {
   try {
     const products = await ProductModel.find();
 
-    const updatedProducts = products.map((product) => ({
-      ...product.toObject(),
-      image: `http://localhost:9000/upload/${product.image}`,
-    }));
-
     return res.status(200).json({
       status: true,
       message: "Products fetched successfully",
-      data: updatedProducts,
+      data: products,
     });
   } catch (error) {
     res.status(500).json({
