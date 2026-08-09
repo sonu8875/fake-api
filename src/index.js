@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import path from "path";
 import productRouter from "./routes/product.route.js";
 import dbConnection from "./config/dbConnection.js";
 
