@@ -5,7 +5,7 @@ const createProduct = async (req, res) => {
   try {
     const { title, price, description, category } = req.body;
     const image = req.file
-      ? `${req.protocol}://${req.get("host")}/upload/${req.file.filename}`
+      ? `https://${req.get("host")}/upload/${req.file.filename}`
       : "";
 
     const rating = {
@@ -69,10 +69,15 @@ const readProduct = async (req, res) => {
   try {
     const products = await ProductModel.find();
 
+    const updatedProducts = products.map((product) => ({
+      ...product.toObject(),
+      image: product.image.replace("http://", "https://"),
+    }));
+
     return res.status(200).json({
       status: true,
       message: "Products fetched successfully",
-      data: products,
+      data: updatedProducts,
     });
   } catch (error) {
     res.status(500).json({
